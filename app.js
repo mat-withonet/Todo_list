@@ -6,67 +6,61 @@
 
 
 const todoInput = document.querySelector(".todo-input");
-const todoButton = document.querySelector(".todo-button");
-const todoList = document.querySelector(".todo-list");
+const toDoButton = document.querySelector(".todo-button");
+const toDoList = document.querySelector(".todo-list");
 
 
 //event listeners
 
-todoButton.addEventListener("click", addTodo);
+toDoButton.addEventListener("click", addToTheTodoList);
+toDoList.addEventListener("click", deleteCheck);
 
 
 //functions 
 
-function addTodo(e) {
-    //Prevent natural behaviour
-    e.preventDefault();
-    //Create todo div
-    const todoDiv = document.createElement("div");
-    todoDiv.classList.add("todo");
-    //Create list
-    const newTodo = document.createElement("li");
+function addToTheTodoList(event){
+    event.preventDefault();
+   // Create a todo div which will contiain each line of the todo list. 
+   const toDoDiv = document.createElement("div");
+   toDoDiv.classList.add("todo")
+   // Create the list
+   const newTodo = document.createElement("li");
     newTodo.innerText = todoInput.value;
-    //Save to local - do this last
-    //Save to local
-    saveLocalTodos(todoInput.value);
-    //
-    newTodo.classList.add("todo-item");
-    todoDiv.appendChild(newTodo);
-    todoInput.value = "";
-    //Create Completed Button
-    const completedButton = document.createElement("button");
-    completedButton.innerHTML = `<i class="fas fa-check"></i>`;
+    newTodo.classList.add('todo-item');
+    toDoDiv.appendChild(newTodo);
+    // adding a completed button
+    const completedButton = document.createElement("button")
+    completedButton.innerHTML = '<i class="fas fa-check"></i>';
     completedButton.classList.add("complete-btn");
-    todoDiv.appendChild(completedButton);
-    //Create trash button
+    toDoDiv.appendChild(completedButton);
+    // adds the trash button
     const trashButton = document.createElement("button");
-    trashButton.innerHTML = `<i class="fas fa-trash"></i>`;
+    trashButton.innerHTML = '<i class="fas fa-trash"></i>';
     trashButton.classList.add("trash-btn");
-    todoDiv.appendChild(trashButton);
-    //attach final Todo
-    todoList.appendChild(todoDiv);
-  }
+    toDoDiv.appendChild(trashButton);
+    // add to the main list 
+    toDoList.appendChild(toDoDiv);
+    //Clear the input value
+    todoInput.value = ""
+} 
 
-// function addToTheTodoList(event){
-//     event.preventDefault();
-//    // Create a todo div which will contiain each line of the todo list. 
-//    const toDoDiv = document.createElement("div");
-//    toDoDiv.classList.add("todo")
-//    // Create the list
-//    const newTodoline = document.createElement("li");
-//     newTodoline.innerText = "hey";
-//     newTodoline.classList.add('todo-item');
-//     toDoDiv.appendChild(newTodoline);
-//     // adding a completed button
-//     const completedButton = document.createElement("button")
-//     completedButton.innerHTML = '<i class="fas fa-check"></li>';
-//     completedButton.classList.add("complete-btn");
-//     toDoDiv.appendChild(completedButton);
-//     // trash button
-//     const trashButton = document.createElement("button")
-//     trashButton.innerHTML = '<i class="fas fa-trash"></li>';
-//     trashButton.classList.add("trash-btn");
-//     toDoDiv.appendChild(trashButton);
-//     // add to the main list 
-//     toDoList.appendChild(toDoDiv);
-// } 
+function deleteCheck(e){
+    //target shows us what we are clicking on. 
+    //console.log(e.target);
+    const button = e.target;
+    if (button.classList[0] === "trash-btn"){
+        const todo = button.parentElement;
+        todo.classList.add("fall")
+        todo.addEventListener("transitionend", function(){
+            todo.remove();
+        });
+    }
+
+    //What happens when you get the Tick Button. 
+    if(button.classList[0]=== "complete-btn"){
+        const todo = button.parentElement;
+        // added the class "completed" to the "todo" div. 
+        todo.classList.toggle('completed')
+        console.log("some shit just got toggled")
+    }
+}
